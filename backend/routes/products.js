@@ -1,6 +1,17 @@
 const exprees=require("express")
 const router=exprees.Router();
 const db=require("../db");
+ const multer=require('multer')
+const storage=multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null,'uploads/');
+    },
+    filename:function(req,file,cb){
+        cb(null,Date.now()+'-'+ file.originalname);
+    }
+})
+const uploads=multer({storage:storage})
+
 
 
 
@@ -21,12 +32,13 @@ router.get("/:id",(req,res)=>{
 res.json(results)
     })
 })
-router.post("/",(req,res)=>{
+router.post("/",uploads.single('image'),(req,res)=>{
 const{name,description,price}=req.body
-const query='INSERT INTO products (name,price,description) values (?,?,?)';
-db.query(query,[name,description,price],(err,results)=>{
+const image_url=req.file ? req.file.filename:null;
+const query='INSERT INTO products (name,price,description,image_url) values (?,?,?,?)';
+db.query(query,[name,description,price,image_url],(err,results)=>{
    if(err)
-    return res.status(500) .json({message:"eror in adding products"})
+    return res.status(500) .json({message:"eror in adding products",err})
   res.json(results);
 
 })

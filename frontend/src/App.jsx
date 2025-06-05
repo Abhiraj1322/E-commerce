@@ -1,20 +1,24 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Main from '../components/Main'
 
+import Home from '../components/Home'
+import Layout from '../components/Layout'
+import Cart from '../components/Cart'
+import { Routes,Route } from 'react-router-dom'
+import Register from '../components/Register'
+import Login from '../components/Login'
 const App = () => {
   return (
-    <div>
+    
+    <Routes>
+  <Route  path="/" element={<Layout/>}> 
+<Route index element={<Home/>}/>
+<Route path='/cart' element={<Cart/>}/>
 
-  <Navbar/>
-  <Main/>
-  
+  </Route>
+<Route path='/register' element={<Register/>}/> 
+<Route path='/login' element={<Login/>}/>
 
-    <Footer/>
-
-
-     </div>
+    </Routes>
   )
 }
 

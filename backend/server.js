@@ -1,14 +1,17 @@
 const exprees=require("express")
 const app =exprees()
+const cors=require('cors')
 const db=require("./db")
+const path=require('path')
 const productroutes=require("./routes/products")
 const ordersroutes=require("./routes/orders")
 const cart_itemsroutes=require("./routes/cart_items")
 const auth=require("./users/auth")
+app.use('/uploads',exprees.static(path.join(__dirname,'uploads')))
 app.use(exprees.json());
-
+app.use(cors())
 app.use("/products",productroutes)
-app.use("/orders",ordersroutes)
+app.use("/orders",ordersroutes)     
 app.use("/cart",cart_itemsroutes)
 app.use("/auth",auth)
 

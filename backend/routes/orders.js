@@ -1,13 +1,13 @@
 const express=require('express');
 const router=express.Router();
 const db=require("../db");
- 
+
 router.post("/",(req,res)=>{
 const[user_id,product_id,qauntity]=req.body;
 const query= "INSERT INTO orders(user_id,product_id,quantity) Values(?,?,?)"
 db.query(query,[user_id,product_id,qauntity],(err,results)=>{
     if(err) return res.status(500).send("Eror in creating order")
-        res.json(result)
+        res.json(results)
 }) 
 })
 
@@ -36,7 +36,7 @@ router.put("/:id",(req,res)=>{
    const query ="UPDATE orders SET quantity=? WHERE id=?"
    db.query(query,quantity,id,(err,results)=>{
     if (err) return res.status(500).send({message:"Eror in editing orders"})
-        res.json( qresults)
+        res.json( results)
    })
 })
 module.exports=router

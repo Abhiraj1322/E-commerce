@@ -1,20 +1,19 @@
 const exprees=require("express")
 const router=exprees.Router();
 const db= require('../db');
-const connection = require("../db");
+
 
 router.post("/",(req,res)=>{
-    const{user_id,product_id,quantity}=req.body
-if (!user_id ||!product_id||!quantity){
-    res.status(500).send({error:"All field required"})
-}
-const query='INSERT INTO cart_items(user_id,product_id,qauntity) Values(?,?,?)'
-db.query(query,[user_id,product_id,quantity],(err,results)=>{
+    const{user_id,product_id,quantity,name}=req.body
+
+const query='INSERT INTO cart_items(user_id,product_id,quantity,name) Values(?,?,?,?)'
+db.query(query,[user_id,product_id,quantity,name],(err,results)=>{
     if(err){
+        console.log(err)
         console.error("eror in adding field",err)
         res.status(500).json({error:"databses eror"})
     }
-    res.status(200).json({mesaage:"item added succesfuly",id:results.insertId})
+    res.status(200).json({mesaage:"item added succesfuly",id:results.user_id})
 })
 })
 router.get("/:user_id",(req,res)=>{
